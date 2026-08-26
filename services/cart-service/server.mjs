@@ -92,7 +92,7 @@ app.post('/api/cart/items', async (req, res) => {
     });
   }
 
-  res.status(201).json(serializeCart(sid));
+  res.status(200).json(serializeCart(sid));
 });
 
 app.listen(PORT, '0.0.0.0', () => {
