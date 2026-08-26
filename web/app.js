@@ -1,31 +1,17 @@
-function renderProducts(products) {
-  var grid = document.getElementById('product-grid');
-  if (!grid) return;
-  if (!products.length) {
-    grid.innerHTML = '<div class="empty-state">No products available.</div>';
-    return;
+window.Analytics = window.Analytics || {
+  track: function (event, props) {
+    window.__analyticsEvents = window.__analyticsEvents || [];
+    window.__analyticsEvents.push({ event: event, props: props || {}, ts: Date.now() });
   }
-  grid.innerHTML = products.map(function (p) {
-    return '<a class="product-grid-card" href="./product.html?id=' + p.id + '">' +
-      '<img src="' + p.imageUrl + '" alt="' + p.name + '">' +
-      '<h3>' + p.name + '</h3>' +
-      '<p>$' + p.price + '</p>' +
-      '</a>';
-  }).join('');
-}
+};
 
-function loadProducts() {
-  var grid = document.getElementById('product-grid');
-  if (!grid) return;
-  fetch('api/products')
-    .then(function (res) {
-      if (!res.ok) throw new Error('Failed to load products');
-      return res.json();
-    })
-    .then(renderProducts)
-    .catch(function () {
-      grid.innerHTML = '<div class="empty-state">Unable to load products.</div>';
+document.addEventListener('DOMContentLoaded', function () {
+  window.Analytics.track('page_viewed', { page: 'landing' });
+
+  var cta = document.getElementById('cta-shop');
+  if (cta) {
+    cta.addEventListener('click', function () {
+      window.Analytics.track('cta_clicked', { page: 'landing', target: 'listing' });
     });
-}
-
-document.addEventListener('DOMContentLoaded', loadProducts);
+  }
+});
