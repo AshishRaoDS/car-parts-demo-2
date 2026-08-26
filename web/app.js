@@ -65,6 +65,33 @@ if (detailMain) {
           </div>
         `;
         window.analytics.track('product_detail_viewed', { productId: product.id });
+
+        const addBtn = document.getElementById('add-to-cart');
+        const confirmMsg = document.getElementById('add-confirm');
+        addBtn.addEventListener('click', () => {
+          addBtn.disabled = true;
+          fetch('api/cart/items', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            credentials: 'same-origin',
+            body: JSON.stringify({ productId: product.id }),
+          })
+            .then((res) => {
+              if (!res.ok) throw new Error('add to cart failed');
+              return res.json();
+            })
+            .then(() => {
+              confirmMsg.classList.add('detail-panel-confirm--visible');
+              window.analytics.track('product_added_to_cart', { productId: product.id });
+            })
+            .catch(() => {
+              confirmMsg.textContent = 'Unable to add to cart.';
+              confirmMsg.classList.add('detail-panel-confirm--visible');
+            })
+            .finally(() => {
+              addBtn.disabled = false;
+            });
+        });
       })
       .catch(() => {
         detailMain.innerHTML = '<p class="empty-state">Unable to load product.</p>';
