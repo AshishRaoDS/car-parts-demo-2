@@ -19,10 +19,19 @@ function renderProducts(products) {
     .join('');
 }
 
-fetch('api/products')
-  .then((res) => res.json())
-  .then(renderProducts)
-  .catch(() => {
-    const grid = document.getElementById('product-grid');
-    grid.innerHTML = '<p class="empty-state">Unable to load products.</p>';
+const grid = document.getElementById('product-grid');
+if (grid) {
+  fetch('api/products')
+    .then((res) => res.json())
+    .then(renderProducts)
+    .catch(() => {
+      grid.innerHTML = '<p class="empty-state">Unable to load products.</p>';
+    });
+}
+
+const shopCta = document.getElementById('shop-cta');
+if (shopCta) {
+  shopCta.addEventListener('click', () => {
+    window.analytics.track('cta_clicked', { cta: 'shop_the_collection' });
   });
+}
