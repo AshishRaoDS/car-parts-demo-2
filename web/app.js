@@ -83,11 +83,13 @@ if (detailMain) {
             })
             .then(() => {
               addConfirm.hidden = false;
+              addConfirm.classList.add('detail-panel-confirm--visible');
               addConfirm.textContent = 'Added to cart.';
               window.analytics.track('product_added_to_cart', { productId: product.id });
             })
             .catch(() => {
               addConfirm.hidden = false;
+              addConfirm.classList.add('detail-panel-confirm--visible');
               addConfirm.textContent = 'Unable to add to cart. Please try again.';
             })
             .finally(() => {
