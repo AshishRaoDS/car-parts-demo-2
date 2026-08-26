@@ -1,0 +1,20 @@
+{
+  "web": {
+    "dir": "web"
+  },
+  "mail": false,
+  "services": {
+    "catalog-service": {
+      "dir": "services/catalog-service",
+      "health": "/health",
+      "routes": ["/api/products"],
+      "consumes": []
+    },
+    "cart-service": {
+      "dir": "services/cart-service",
+      "health": "/health",
+      "routes": ["/api/cart"],
+      "consumes": ["catalog-service"]
+    }
+  }
+}
