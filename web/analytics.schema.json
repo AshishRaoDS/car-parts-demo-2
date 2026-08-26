@@ -1,0 +1,14 @@
+{
+  "events": [
+    {
+      "name": "page_viewed",
+      "description": "Fired on DOMContentLoaded for every page.",
+      "properties": { "path": "string" }
+    },
+    {
+      "name": "products_loaded",
+      "description": "Fired when the listing page successfully loads products from catalog-service.",
+      "properties": { "count": "number" }
+    }
+  ]
+}
