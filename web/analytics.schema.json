@@ -26,6 +26,13 @@
       "props": {
         "productId": "string — id of the product being viewed"
       }
+    },
+    {
+      "name": "cart_item_added",
+      "description": "Fired when 'Add to cart' successfully adds one unit of a product to the session cart.",
+      "props": {
+        "productId": "string — id of the product added to the cart"
+      }
     }
   ]
 }
