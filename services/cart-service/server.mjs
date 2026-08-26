@@ -16,11 +16,9 @@ const SESSION_COOKIE = 'cart_session';
 
 function getSessionId(req, res) {
   let sid = req.cookies[SESSION_COOKIE];
-  if (!sid) {
+  if (!sid || !carts.has(sid)) {
     sid = crypto.randomUUID();
-    res.cookie(SESSION_COOKIE, sid, { httpOnly: true, sameSite: 'lax' });
-  }
-  if (!carts.has(sid)) {
+    res.cookie(SESSION_COOKIE, sid, { httpOnly: true, sameSite: 'lax', path: '/' });
     carts.set(sid, new Map());
   }
   return sid;
