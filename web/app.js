@@ -83,6 +83,7 @@ if (detailMain) {
             })
             .then(() => {
               addConfirm.hidden = false;
+              addConfirm.textContent = 'Added to cart.';
               window.analytics.track('product_added_to_cart', { productId: product.id });
             })
             .catch(() => {
