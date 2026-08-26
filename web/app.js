@@ -8,9 +8,11 @@ function renderProducts(products) {
     .map(
       (p) => `
       <a class="product-grid-card" href="./product.html?id=${encodeURIComponent(p.id)}">
-        <img src="${p.thumbnail}" alt="${p.name}">
-        <h3>${p.name}</h3>
-        <p>$${p.price.toFixed(2)}</p>
+        <img class="product-grid-image" src="${p.thumbnail}" alt="${p.name}">
+        <div class="product-grid-body">
+          <h3 class="product-grid-name">${p.name}</h3>
+          <p class="product-grid-price">$${p.price.toFixed(2)}</p>
+        </div>
       </a>
     `
     )
