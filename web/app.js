@@ -4,13 +4,20 @@
     if (!grid) return;
     grid.innerHTML = '';
     products.forEach(function (p) {
-      var card = document.createElement('article');
+      var card = document.createElement('a');
       card.className = 'product-card';
+      card.href = './detail.html?id=' + encodeURIComponent(p.id);
       card.innerHTML =
-        '<img src="' + p.image + '" alt="' + p.name + '">' +
-        '<h3>' + p.name + '</h3>' +
-        '<p>' + p.description + '</p>' +
-        '<p>$' + Number(p.price).toFixed(2) + '</p>';
+        '<div class="product-card-image">' +
+        '<img src="' + p.image + '" alt="' + p.name + '" style="width:100%;height:100%;object-fit:cover;">' +
+        '</div>' +
+        '<div class="product-card-body">' +
+        '<h3 class="product-card-name">' + p.name + '</h3>' +
+        '<div class="product-card-price">$' + Number(p.price).toFixed(2) + '</div>' +
+        '</div>';
+      card.addEventListener('click', function () {
+        if (window.analytics) window.analytics.track('product_card_clicked', { productId: p.id });
+      });
       grid.appendChild(card);
     });
   }
