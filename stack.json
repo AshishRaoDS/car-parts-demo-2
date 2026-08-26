@@ -1,0 +1,14 @@
+{
+  "web": {
+    "dir": "web"
+  },
+  "services": {
+    "product-service": {
+      "dir": "services/product-service",
+      "health": "/health",
+      "routes": ["/api/products"],
+      "consumes": [],
+      "owns": ["products"]
+    }
+  }
+}
