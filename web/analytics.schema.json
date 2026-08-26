@@ -22,8 +22,13 @@
     },
     {
       "name": "product_added_to_cart",
-      "description": "Fired when a product is successfully added to the cart via the detail page's Add to cart button.",
+      "description": "Fired when Add to cart succeeds on the product detail page.",
       "properties": { "productId": "string" }
+    },
+    {
+      "name": "cart_viewed",
+      "description": "Fired when the cart page successfully loads cart state.",
+      "properties": { "itemCount": "number", "total": "number" }
     }
   ]
 }
