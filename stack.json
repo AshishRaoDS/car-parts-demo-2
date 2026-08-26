@@ -1,0 +1,15 @@
+{
+  "version": 2,
+  "mail": false,
+  "web": {
+    "dir": "web"
+  },
+  "services": {
+    "product-service": {
+      "dir": "services/product-service",
+      "health": "/health",
+      "routes": ["/api/products"],
+      "consumes": []
+    }
+  }
+}
