@@ -7,8 +7,6 @@ CREATE TABLE products (
   created_at TIMESTAMPTZ NOT NULL DEFAULT now()
 );
 
-CREATE EXTENSION IF NOT EXISTS pgcrypto;
-
 INSERT INTO products (name, price, image_url, description) VALUES
   ('Hand-Thrown Ceramic Mug', 24.00, 'https://picsum.photos/seed/mug/600/400', 'A rustic hand-thrown ceramic mug glazed in warm earth tones. Holds 12oz and is dishwasher safe.'),
   ('Woven Wool Throw Blanket', 68.00, 'https://picsum.photos/seed/blanket/600/400', 'A heavyweight woven wool throw in a herringbone pattern, perfect for cool evenings by the fire.'),
