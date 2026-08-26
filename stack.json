@@ -1,0 +1,15 @@
+{
+  "version": 2,
+  "mail": false,
+  "web": {
+    "dir": "web"
+  },
+  "services": {
+    "store-service": {
+      "dir": "services/store-service",
+      "health": "/health",
+      "routes": ["/products", "/cart"],
+      "consumes": []
+    }
+  }
+}

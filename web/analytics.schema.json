@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "events": [
+    {
+      "name": "page_viewed",
+      "description": "Fired automatically on every page load.",
+      "props": {
+        "path": "string — window.location.pathname of the page viewed"
+      }
+    },
+    {
+      "name": "landing_cta_clicked",
+      "description": "Fired when the landing page 'Browse the shop' CTA is clicked, before navigating to the listing page.",
+      "props": {}
+    }
+  ]
+}
