@@ -60,7 +60,7 @@ if (detailMain) {
               <p class="detail-panel-price">$${Number(product.price).toFixed(2)}</p>
               <p class="detail-panel-desc">${product.description}</p>
               <button id="add-to-cart" class="btn-primary">Add to cart</button>
-              <p id="add-confirm" class="detail-panel-confirm" hidden>Added to cart.</p>
+              <p id="add-confirm" class="detail-panel-confirm" hidden></p>
             </div>
           </div>
         `;
@@ -70,7 +70,7 @@ if (detailMain) {
         const addConfirm = document.getElementById('add-confirm');
         addBtn.addEventListener('click', () => {
           addBtn.disabled = true;
-          addBtn.classList.add('btn-primary-loading');
+          addBtn.classList.add('btn-primary--loading');
           fetch('api/cart/items', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -94,7 +94,7 @@ if (detailMain) {
             })
             .finally(() => {
               addBtn.disabled = false;
-              addBtn.classList.remove('btn-primary-loading');
+              addBtn.classList.remove('btn-primary--loading');
             });
         });
       })
