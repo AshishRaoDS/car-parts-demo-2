@@ -9,6 +9,7 @@ const app = express();
 app.use(express.json());
 app.use(cookieParser());
 
+// session id -> Map(productId -> { productId, name, unitPrice, quantity })
 const carts = new Map();
 
 const SESSION_COOKIE = 'cart_session';
