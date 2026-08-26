@@ -1,4 +1,7 @@
 {
+  "version": 2,
+  "web": { "dir": "web" },
+  "mail": false,
   "services": {
     "catalog-service": {
       "dir": "services/catalog-service",
