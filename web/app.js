@@ -20,7 +20,7 @@
     if (grid) grid.innerHTML = '<div class="empty-state">Unable to load products.</div>';
   }
 
-  fetch('api/products')
+  fetch('products')
     .then(function (res) {
       if (!res.ok) throw new Error('bad response');
       return res.json();
