@@ -1,0 +1,12 @@
+{
+  "web": {
+    "dir": "web"
+  },
+  "services": {
+    "store-service": {
+      "dir": "services/store-service",
+      "health": "/health",
+      "consumes": []
+    }
+  }
+}
