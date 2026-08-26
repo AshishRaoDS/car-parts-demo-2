@@ -24,7 +24,7 @@
 
   var grid = document.getElementById('product-grid');
   if (grid) {
-    fetch('api/store-service/products')
+    fetch('api/products')
       .then(function (res) { return res.json(); })
       .then(renderProducts)
       .catch(function () {
