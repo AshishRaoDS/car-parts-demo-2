@@ -22,7 +22,7 @@
     },
     {
       "name": "product_added_to_cart",
-      "description": "Fired when Add to cart succeeds on the detail page.",
+      "description": "Fired when Add to cart succeeds on the detail page and the item is recorded in the server-side cart session.",
       "properties": { "productId": "string" }
     }
   ]
