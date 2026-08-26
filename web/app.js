@@ -8,6 +8,7 @@ window.addEventListener("DOMContentLoaded", function () {
       return res.json();
     })
     .then(function (products) {
+      if (window.Analytics) window.Analytics.track("products_loaded", { count: products.length });
       if (!products.length) {
         grid.innerHTML =
           '<div class="empty-state"><p class="empty-state-title">No products available</p></div>';
@@ -16,7 +17,7 @@ window.addEventListener("DOMContentLoaded", function () {
       grid.innerHTML = products
         .map(function (p) {
           return (
-            '<a class="product-grid-card" href="./product.html?id=' +
+            '<a class="product-grid-card" href="product.html?id=' +
             encodeURIComponent(p.id) +
             '">' +
             '<img class="product-grid-image" src="' +
