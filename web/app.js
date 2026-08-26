@@ -24,12 +24,46 @@
 
   var grid = document.getElementById('product-grid');
   if (grid) {
-    fetch('api/products')
+    fetch('products')
       .then(function (res) { return res.json(); })
       .then(renderProducts)
       .catch(function () {
         grid.innerHTML = '<div class="empty-state">Unable to load products.</div>';
       });
+  }
+
+  function renderDetail(product) {
+    var panel = document.getElementById('detail-panel');
+    if (!panel) return;
+    document.title = product.name + ' — FourPageStore';
+    panel.innerHTML =
+      '<div class="detail-panel-image">' +
+      '<img src="' + product.image + '" alt="' + product.name + '" style="width:100%;height:100%;object-fit:cover;">' +
+      '</div>' +
+      '<div class="detail-panel-info">' +
+      '<h1 class="detail-panel-name">' + product.name + '</h1>' +
+      '<p class="detail-panel-price">$' + Number(product.price).toFixed(2) + '</p>' +
+      '<p class="detail-panel-description">' + product.description + '</p>' +
+      '</div>';
+  }
+
+  var detailPanel = document.getElementById('detail-panel');
+  if (detailPanel) {
+    var params = new URLSearchParams(window.location.search);
+    var id = params.get('id');
+    if (id) {
+      fetch('products/' + encodeURIComponent(id))
+        .then(function (res) {
+          if (!res.ok) throw new Error('not found');
+          return res.json();
+        })
+        .then(renderDetail)
+        .catch(function () {
+          detailPanel.innerHTML = '<div class="empty-state">Product not found.</div>';
+        });
+    } else {
+      detailPanel.innerHTML = '<div class="empty-state">Product not found.</div>';
+    }
   }
 
   var ctaShop = document.getElementById('cta-shop');
