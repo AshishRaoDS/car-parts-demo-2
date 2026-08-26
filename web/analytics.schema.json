@@ -14,6 +14,11 @@
       "name": "product_list_viewed",
       "description": "Fired when the product listing page successfully loads products from the catalog API.",
       "properties": { "count": "number" }
+    },
+    {
+      "name": "product_detail_viewed",
+      "description": "Fired when a product detail page successfully loads a product from the catalog API.",
+      "properties": { "productId": "string" }
     }
   ]
 }
