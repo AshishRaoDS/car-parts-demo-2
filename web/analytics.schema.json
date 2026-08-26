@@ -24,6 +24,11 @@
       "name": "product_added_to_cart",
       "description": "Fired when a product is successfully added to the server-side session cart from the detail page.",
       "properties": { "productId": "string" }
+    },
+    {
+      "name": "cart_viewed",
+      "description": "Fired when the cart page successfully loads the current session cart.",
+      "properties": { "count": "number" }
     }
   ]
 }
