@@ -1,3 +1,16 @@
+function cartHeaders(extra) {
+  const headers = Object.assign({}, extra || {});
+  const sid = sessionStorage.getItem('cartSessionId');
+  if (sid) headers['X-Session-Id'] = sid;
+  return headers;
+}
+
+function rememberSession(res) {
+  const sid = res.headers.get('x-session-id');
+  if (sid) sessionStorage.setItem('cartSessionId', sid);
+  return res;
+}
+
 function renderProducts(products) {
   const grid = document.getElementById('product-grid');
   if (!products.length) {
@@ -71,15 +84,17 @@ if (detailMain) {
           addBtn.disabled = true;
           fetch('api/cart/items', {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: cartHeaders({ 'Content-Type': 'application/json' }),
             credentials: 'same-origin',
             body: JSON.stringify({ productId: product.id }),
           })
             .then((res) => {
+              rememberSession(res);
               if (!res.ok) throw new Error('add to cart failed');
               return res.json();
             })
             .then(() => {
+              confirmMsg.textContent = 'Added to cart.';
               confirmMsg.classList.add('detail-panel-confirm--visible');
               try { window.analytics.track('product_added_to_cart', { productId: product.id }); } catch (e) { /* analytics must never block the cart write */ }
             })
@@ -102,8 +117,9 @@ if (detailMain) {
 
 const cartMain = document.getElementById('cart-main');
 if (cartMain) {
-  fetch('api/cart', { credentials: 'same-origin' })
+  fetch('api/cart', { credentials: 'same-origin', headers: cartHeaders() })
     .then((res) => {
+      rememberSession(res);
       if (!res.ok) throw new Error('cart load failed');
       return res.json();
     })
@@ -143,6 +159,7 @@ if (cartMain) {
           </tbody>
         </table>
       `;
+      try { window.analytics.track('cart_viewed', { itemCount: cart.items.length, total: cart.total }); } catch (e) { /* analytics must never block rendering */ }
     })
     .catch(() => {
       cartMain.innerHTML = '<p class="empty-state">Unable to load cart.</p>';
