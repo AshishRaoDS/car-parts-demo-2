@@ -20,11 +20,18 @@
     if (grid) grid.innerHTML = '<div class="empty-state">Unable to load products.</div>';
   }
 
-  fetch('products')
-    .then(function (res) {
+  function fetchFrom(path) {
+    return fetch(path).then(function (res) {
       if (!res.ok) throw new Error('bad response');
       return res.json();
-    })
-    .then(renderProducts)
-    .catch(showError);
+    });
+  }
+
+  var grid = document.getElementById('product-grid');
+  if (grid) {
+    fetchFrom('products')
+      .catch(function () { return fetchFrom('api/products'); })
+      .then(renderProducts)
+      .catch(showError);
+  }
 })();
