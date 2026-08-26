@@ -1,0 +1,29 @@
+{
+  "events": [
+    {
+      "name": "page_viewed",
+      "description": "Fired once per page load.",
+      "properties": { "path": "string" }
+    },
+    {
+      "name": "cta_clicked",
+      "description": "Fired when the landing page call-to-action is clicked, navigating to the listing page.",
+      "properties": { "cta": "string" }
+    },
+    {
+      "name": "product_list_viewed",
+      "description": "Fired when the product listing page successfully loads products from the catalog API.",
+      "properties": { "count": "number" }
+    },
+    {
+      "name": "product_detail_viewed",
+      "description": "Fired when the product detail page successfully loads a product from the catalog API.",
+      "properties": { "productId": "string" }
+    },
+    {
+      "name": "product_added_to_cart",
+      "description": "Fired when Add to cart succeeds on the product detail page.",
+      "properties": { "productId": "string" }
+    }
+  ]
+}
