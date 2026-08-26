@@ -15,11 +15,16 @@
     });
   }
 
-  fetch('api/store-service/products')
-    .then(function (res) { return res.json(); })
+  function showError() {
+    var grid = document.getElementById('product-grid');
+    if (grid) grid.innerHTML = '<div class="empty-state">Unable to load products.</div>';
+  }
+
+  fetch('api/products')
+    .then(function (res) {
+      if (!res.ok) throw new Error('bad response');
+      return res.json();
+    })
     .then(renderProducts)
-    .catch(function () {
-      var grid = document.getElementById('product-grid');
-      if (grid) grid.innerHTML = '<div class="empty-state">Unable to load products.</div>';
-    });
+    .catch(showError);
 })();
