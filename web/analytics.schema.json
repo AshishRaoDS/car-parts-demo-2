@@ -4,6 +4,11 @@
       "name": "page_viewed",
       "description": "Fired once per page load.",
       "properties": { "path": "string" }
+    },
+    {
+      "name": "cta_clicked",
+      "description": "Fired when the landing page call-to-action is clicked, navigating to the listing page.",
+      "properties": { "cta": "string" }
     }
   ]
 }
