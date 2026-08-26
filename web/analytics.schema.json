@@ -1,0 +1,9 @@
+{
+  "events": [
+    {
+      "name": "page_viewed",
+      "description": "Fired once per page load.",
+      "properties": { "path": "string" }
+    }
+  ]
+}
