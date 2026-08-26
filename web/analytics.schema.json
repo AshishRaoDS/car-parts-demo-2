@@ -19,6 +19,13 @@
       "props": {
         "productId": "string — id of the product whose card was clicked"
       }
+    },
+    {
+      "name": "product_detail_viewed",
+      "description": "Fired when the product detail page finishes loading a product's full detail.",
+      "props": {
+        "productId": "string — id of the product being viewed"
+      }
     }
   ]
 }
