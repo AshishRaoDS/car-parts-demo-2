@@ -39,42 +39,35 @@ if (shopCta) {
   });
 }
 
-function renderProductDetail(product) {
-  const main = document.getElementById('detail-main');
-  main.innerHTML = `
-    <div class="detail-panel">
-      <img class="detail-panel-image" src="${product.image}" alt="${product.name}">
-      <div>
-        <h1 class="detail-panel-name">${product.name}</h1>
-        <p class="detail-panel-price">$${product.price.toFixed(2)}</p>
-        <p class="detail-panel-desc">${product.description}</p>
-        <button id="add-to-cart" class="btn-primary">Add to cart</button>
-        <p id="added-msg" class="detail-panel-confirm">Added to your cart. <a href="./cart.html">View cart</a></p>
-      </div>
-    </div>
-  `;
-}
-
 const detailMain = document.getElementById('detail-main');
 if (detailMain) {
   const params = new URLSearchParams(window.location.search);
-  const id = params.get('id');
-  if (!id) {
-    detailMain.innerHTML = '<p class="empty-state">Product not found.</p>';
+  const productId = params.get('id');
+  if (!productId) {
+    detailMain.innerHTML = '<p class="empty-state">No product specified.</p>';
   } else {
-    fetch(`api/products/${encodeURIComponent(id)}`)
+    fetch(`api/products/${encodeURIComponent(productId)}`)
       .then((res) => {
-        if (!res.ok) {
-          throw new Error('not found');
-        }
+        if (!res.ok) throw new Error('not found');
         return res.json();
       })
       .then((product) => {
-        renderProductDetail(product);
+        detailMain.innerHTML = `
+          <div class="detail-panel">
+            <img class="detail-panel-image" src="${product.image}" alt="${product.name}">
+            <div>
+              <h1 class="detail-panel-name">${product.name}</h1>
+              <p class="detail-panel-price">$${Number(product.price).toFixed(2)}</p>
+              <p class="detail-panel-desc">${product.description}</p>
+              <button id="add-to-cart" class="btn-primary">Add to cart</button>
+              <p id="add-confirm" class="detail-panel-confirm">Added to cart.</p>
+            </div>
+          </div>
+        `;
         window.analytics.track('product_detail_viewed', { productId: product.id });
       })
       .catch(() => {
-        detailMain.innerHTML = '<p class="empty-state">Product not found.</p>';
+        detailMain.innerHTML = '<p class="empty-state">Unable to load product.</p>';
       });
   }
 }
