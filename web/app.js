@@ -65,39 +65,6 @@ if (detailMain) {
           </div>
         `;
         window.analytics.track('product_detail_viewed', { productId: product.id });
-
-        const addBtn = document.getElementById('add-to-cart');
-        const confirmMsg = document.getElementById('add-confirm');
-        const panel = detailMain.querySelector('.detail-panel');
-        addBtn.addEventListener('click', () => {
-          addBtn.disabled = true;
-          const originalLabel = addBtn.textContent;
-          addBtn.textContent = 'Adding…';
-          fetch('api/cart/items', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ productId: product.id }),
-          })
-            .then((res) => {
-              if (!res.ok) throw new Error('add to cart failed');
-              return res.json();
-            })
-            .then((cart) => {
-              window.analytics.track('product_added_to_cart', { productId: product.id });
-              if (panel) panel.classList.add('confirm-visible');
-              if (confirmMsg) confirmMsg.style.display = 'block';
-              addBtn.textContent = originalLabel;
-              addBtn.disabled = false;
-            })
-            .catch(() => {
-              addBtn.textContent = originalLabel;
-              addBtn.disabled = false;
-              if (confirmMsg) {
-                confirmMsg.textContent = 'Unable to add to cart. Please try again.';
-                confirmMsg.style.display = 'block';
-              }
-            });
-        });
       })
       .catch(() => {
         detailMain.innerHTML = '<p class="empty-state">Unable to load product.</p>';
@@ -105,55 +72,60 @@ if (detailMain) {
   }
 }
 
+function renderCart(cart) {
+  const main = document.getElementById('cart-main');
+  if (!cart.items.length) {
+    main.innerHTML = `
+      <div class="empty-state">
+        <h2 class="empty-state-title">Your cart is empty</h2>
+        <p class="empty-state-body">Nothing added yet. Browse the collection and add a piece you like &mdash; it will show up here.</p>
+        <a class="btn-primary" href="./products.html">Browse products</a>
+      </div>
+    `;
+    return;
+  }
+  const rows = cart.items
+    .map(
+      (i) => `
+      <tr class="cart-table-row">
+        <td class="cart-table-cell">${i.name}</td>
+        <td class="cart-table-cell">${i.quantity}</td>
+        <td class="cart-table-cell">$${Number(i.unitPrice).toFixed(2)}</td>
+        <td class="cart-table-cell">$${Number(i.subtotal).toFixed(2)}</td>
+      </tr>
+    `
+    )
+    .join('');
+  main.innerHTML = `
+    <table class="cart-table">
+      <thead>
+        <tr class="cart-table-row cart-table-header">
+          <th class="cart-table-cell">Item</th>
+          <th class="cart-table-cell">Qty</th>
+          <th class="cart-table-cell">Unit price</th>
+          <th class="cart-table-cell">Subtotal</th>
+        </tr>
+      </thead>
+      <tbody>
+        ${rows}
+        <tr class="cart-table-row cart-table-total-row">
+          <td class="cart-table-cell">Total</td>
+          <td class="cart-table-cell"></td>
+          <td class="cart-table-cell"></td>
+          <td class="cart-table-cell">$${Number(cart.total).toFixed(2)}</td>
+        </tr>
+      </tbody>
+    </table>
+  `;
+}
+
 const cartMain = document.getElementById('cart-main');
 if (cartMain) {
   fetch('api/cart')
-    .then((res) => {
-      if (!res.ok) throw new Error('cart load failed');
-      return res.json();
-    })
+    .then((res) => res.json())
     .then((cart) => {
-      if (!cart.items.length) {
-        cartMain.innerHTML = `
-          <div class="empty-state">
-            <h2 class="empty-state-title">Your cart is empty</h2>
-            <p class="empty-state-body">Browse the collection and add something you like.</p>
-            <a class="btn-primary" href="./products.html">Shop the collection</a>
-          </div>
-        `;
-        return;
-      }
-      const rows = cart.items
-        .map(
-          (i) => `
-          <tr class="cart-table-row">
-            <td class="cart-table-cell">${i.name}</td>
-            <td class="cart-table-cell">$${Number(i.unitPrice).toFixed(2)}</td>
-            <td class="cart-table-cell">${i.quantity}</td>
-            <td class="cart-table-cell">$${Number(i.subtotal).toFixed(2)}</td>
-          </tr>
-        `
-        )
-        .join('');
-      cartMain.innerHTML = `
-        <table class="cart-table">
-          <thead>
-            <tr class="cart-table-row cart-table-header">
-              <th class="cart-table-cell">Product</th>
-              <th class="cart-table-cell">Unit price</th>
-              <th class="cart-table-cell">Qty</th>
-              <th class="cart-table-cell">Subtotal</th>
-            </tr>
-          </thead>
-          <tbody>
-            ${rows}
-            <tr class="cart-table-row cart-table-total-row">
-              <td class="cart-table-cell" colspan="3">Total</td>
-              <td class="cart-table-cell">$${Number(cart.total).toFixed(2)}</td>
-            </tr>
-          </tbody>
-        </table>
-      `;
+      renderCart(cart);
+      window.analytics.track('cart_viewed', { itemCount: cart.items.length, total: cart.total });
     })
     .catch(() => {
       cartMain.innerHTML = '<p class="empty-state">Unable to load cart.</p>';
