@@ -97,27 +97,25 @@ function renderCart(cart) {
     )
     .join('');
   main.innerHTML = `
-    <div style="padding:16px;max-width:800px;margin:0 auto;">
-      <table class="cart-table">
-        <thead>
-          <tr class="cart-table-row cart-table-header">
-            <th class="cart-table-cell">Item</th>
-            <th class="cart-table-cell">Qty</th>
-            <th class="cart-table-cell">Unit price</th>
-            <th class="cart-table-cell">Subtotal</th>
-          </tr>
-        </thead>
-        <tbody>
-          ${rows}
-          <tr class="cart-table-row cart-table-total-row">
-            <td class="cart-table-cell">Total</td>
-            <td class="cart-table-cell"></td>
-            <td class="cart-table-cell"></td>
-            <td class="cart-table-cell">$${Number(cart.total).toFixed(2)}</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+    <table class="cart-table">
+      <thead>
+        <tr class="cart-table-row cart-table-header">
+          <th class="cart-table-cell">Item</th>
+          <th class="cart-table-cell">Qty</th>
+          <th class="cart-table-cell">Unit price</th>
+          <th class="cart-table-cell">Subtotal</th>
+        </tr>
+      </thead>
+      <tbody>
+        ${rows}
+        <tr class="cart-table-row cart-table-total-row">
+          <td class="cart-table-cell">Total</td>
+          <td class="cart-table-cell"></td>
+          <td class="cart-table-cell"></td>
+          <td class="cart-table-cell">$${Number(cart.total).toFixed(2)}</td>
+        </tr>
+      </tbody>
+    </table>
   `;
 }
 
