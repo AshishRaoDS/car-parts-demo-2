@@ -15,11 +15,23 @@
     });
   }
 
-  fetch('api/store-service/products')
-    .then(function (res) { return res.json(); })
-    .then(renderProducts)
-    .catch(function () {
-      var grid = document.getElementById('product-grid');
-      if (grid) grid.innerHTML = '<div class="empty-state">Unable to load products.</div>';
+  function showError() {
+    var grid = document.getElementById('product-grid');
+    if (grid) grid.innerHTML = '<div class="empty-state">Unable to load products.</div>';
+  }
+
+  function fetchFrom(path) {
+    return fetch(path).then(function (res) {
+      if (!res.ok) throw new Error('bad response');
+      return res.json();
     });
+  }
+
+  var grid = document.getElementById('product-grid');
+  if (grid) {
+    fetchFrom('products')
+      .catch(function () { return fetchFrom('api/products'); })
+      .then(renderProducts)
+      .catch(showError);
+  }
 })();

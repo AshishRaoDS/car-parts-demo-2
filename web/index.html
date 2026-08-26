@@ -8,23 +8,34 @@
 </head>
 <body>
 <nav class="site-nav">
-  <a href="./index.html" class="active-link">FourPageStore</a>
+  <a href="./index.html" class="site-nav-brand">FourPageStore</a>
+  <div class="site-nav-links">
+    <a class="site-nav-link" href="listing.html">Shop</a>
+  </div>
 </nav>
 
-<header class="hero">
-  <h1>FourPageStore</h1>
-  <p>Handmade goods, mocked catalogue.</p>
-</header>
-
-<main>
-  <section class="product-grid" id="product-grid">
-  </section>
-</main>
+<section class="hero">
+  <h1 class="hero-title">Everyday goods, honestly made.</h1>
+  <p class="hero-subtitle">FourPageStore is a small, curated shop of well-made essentials — ceramics, textiles, and tools for the home, each chosen for how it holds up over years, not seasons.</p>
+  <a class="btn-primary" id="cta-shop" href="listing.html">Browse the shop</a>
+</section>
 
 <footer class="site-footer">
   <p>&copy; 2026 FourPageStore</p>
 </footer>
 
-<script src="./app.js" defer></script>
+<script src="./analytics.js" defer></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  var cta = document.getElementById('cta-shop');
+  if (cta) {
+    cta.addEventListener('click', function () {
+      if (window.analytics) {
+        window.analytics.track('cta_clicked', { cta: 'browse_shop', destination: 'listing.html' });
+      }
+    });
+  }
+});
+</script>
 </body>
 </html>
