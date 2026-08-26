@@ -9,6 +9,11 @@
       "name": "cta_clicked",
       "description": "Fired when the landing page call-to-action is clicked, navigating to the listing page.",
       "properties": { "cta": "string" }
+    },
+    {
+      "name": "product_list_viewed",
+      "description": "Fired when the product listing page successfully loads products from the catalog API.",
+      "properties": { "count": "number" }
     }
   ]
 }

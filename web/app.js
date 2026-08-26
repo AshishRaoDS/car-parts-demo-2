@@ -23,7 +23,10 @@ const grid = document.getElementById('product-grid');
 if (grid) {
   fetch('api/products')
     .then((res) => res.json())
-    .then(renderProducts)
+    .then((products) => {
+      renderProducts(products);
+      window.analytics.track('product_list_viewed', { count: products.length });
+    })
     .catch(() => {
       grid.innerHTML = '<p class="empty-state">Unable to load products.</p>';
     });
