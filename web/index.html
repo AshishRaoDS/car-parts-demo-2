@@ -8,23 +8,41 @@
 </head>
 <body>
 <nav class="site-nav">
-  <a href="./index.html" class="active-link">FourPageStore</a>
+  <span class="site-nav-brand">FourPageStore</span>
+  <div class="site-nav-links">
+    <a class="site-nav-link" href="listing.html">Shop</a>
+    <a class="site-nav-link" href="cart.html">Cart<span class="site-nav-cart-count" id="nav-cart-count">0</span></a>
+  </div>
 </nav>
 
-<header class="hero">
-  <h1>FourPageStore</h1>
-  <p>Handmade goods, mocked catalogue.</p>
-</header>
+<section class="hero">
+  <h1 class="hero-title">Everyday goods, honestly made.</h1>
+  <p class="hero-subtitle">FourPageStore is a small, curated shop of well-made essentials — ceramics, textiles, and tools for the home, each chosen for how it holds up over years, not seasons.</p>
+  <button type="button" class="btn-primary" id="cta-shop">Browse the shop</button>
+  <p class="hero-status" id="cta-status" role="status"></p>
+</section>
 
-<main>
-  <section class="product-grid" id="product-grid">
-  </section>
-</main>
+<footer class="site-footer">FourPageStore — a small mocked storefront demo.</footer>
 
-<footer class="site-footer">
-  <p>&copy; 2026 FourPageStore</p>
-</footer>
-
+<script src="./analytics.js" defer></script>
 <script src="./app.js" defer></script>
+<script>
+(function () {
+  var btn = document.getElementById('cta-shop');
+  var status = document.getElementById('cta-status');
+  if (btn) {
+    btn.addEventListener('click', function () {
+      btn.disabled = true;
+      btn.classList.add('btn-primary-done');
+      btn.textContent = 'Opening the shop…';
+      status.textContent = 'Taking you to the product listing.';
+      if (window.analytics) {
+        window.analytics.track('cta_clicked', { cta: 'browse_shop', destination: 'listing.html' });
+      }
+      window.location.href = 'listing.html';
+    });
+  }
+})();
+</script>
 </body>
 </html>
