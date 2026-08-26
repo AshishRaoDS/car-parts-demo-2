@@ -8,17 +8,18 @@
 </head>
 <body>
 <nav class="top-nav">
-  <a href="./index.html">Storefront</a>
-  <a href="./cart.html">Cart</a>
+  <a href="./index.html" class="top-nav-brand">FourPage Storefront Demo</a>
+  <a href="./cart.html" class="top-nav-cart">Cart <span class="top-nav-cart-badge" id="cart-badge">0</span></a>
 </nav>
 <main>
   <section class="hero-section">
-    <h1>Welcome to the Storefront</h1>
-  </section>
-  <section class="product-grid" id="product-grid">
-    <p>Loading products...</p>
+    <span class="hero-section-eyebrow">Small batch goods</span>
+    <h1 class="hero-section-title">Considered objects for a slower home</h1>
+    <p class="hero-section-copy">A tight collection of everyday goods — ceramics, textiles, and tools — each one photographed and priced so you can browse the full catalog in minutes.</p>
+    <a href="./listing.html" class="btn-primary" id="browse-cta">Browse the collection</a>
   </section>
 </main>
+<script src="./analytics.js" defer></script>
 <script src="./app.js" defer></script>
 </body>
 </html>
