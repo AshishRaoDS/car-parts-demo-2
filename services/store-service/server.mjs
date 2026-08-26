@@ -116,6 +116,8 @@ const server = http.createServer((req, res) => {
           return;
         }
         const quantity = Number.isFinite(body.quantity) && body.quantity > 0 ? body.quantity : 1;
+        // Increment the existing line's quantity rather than creating a duplicate entry
+        // when the same product is added again in the same session.
         const lines = carts.get(sessionId);
         const existing = lines.get(product.id);
         if (existing) {
