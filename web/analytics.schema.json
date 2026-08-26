@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "FourPageStore Analytics Events",
+  "events": [
+    {
+      "name": "page_viewed",
+      "description": "Fired automatically on every page load.",
+      "properties": {
+        "page": { "type": "string", "description": "Document title of the page viewed." }
+      }
+    },
+    {
+      "name": "cta_clicked",
+      "description": "Fired when the landing page call-to-action is clicked, navigating to the product listing.",
+      "properties": {
+        "cta": { "type": "string", "description": "Identifier of the CTA clicked." },
+        "destination": { "type": "string", "description": "Relative path navigated to." }
+      }
+    }
+  ]
+}
