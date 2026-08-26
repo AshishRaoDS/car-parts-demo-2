@@ -12,6 +12,13 @@
       "name": "landing_cta_clicked",
       "description": "Fired when the landing page 'Browse the shop' CTA is clicked, before navigating to the listing page.",
       "props": {}
+    },
+    {
+      "name": "product_card_clicked",
+      "description": "Fired when a product card on the listing page is clicked, before navigating to that product's detail page.",
+      "props": {
+        "productId": "string — id of the product whose card was clicked"
+      }
     }
   ]
 }
