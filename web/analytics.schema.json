@@ -17,8 +17,13 @@
     },
     {
       "name": "product_detail_viewed",
-      "description": "Fired when a product detail page successfully loads a product from the catalog API.",
+      "description": "Fired when the product detail page successfully loads a product from the catalog API.",
       "properties": { "productId": "string" }
+    },
+    {
+      "name": "cart_viewed",
+      "description": "Fired when the cart page successfully loads cart state from the cart API.",
+      "properties": { "itemCount": "number", "total": "number" }
     }
   ]
 }

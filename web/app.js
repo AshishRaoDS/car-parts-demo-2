@@ -71,3 +71,63 @@ if (detailMain) {
       });
   }
 }
+
+function renderCart(cart) {
+  const main = document.getElementById('cart-main');
+  if (!cart.items.length) {
+    main.innerHTML = `
+      <div class="empty-state">
+        <h2 class="empty-state-title">Your cart is empty</h2>
+        <p class="empty-state-body">Nothing added yet. Browse the collection and add a piece you like &mdash; it will show up here.</p>
+        <a class="btn-primary" href="./products.html">Browse products</a>
+      </div>
+    `;
+    return;
+  }
+  const rows = cart.items
+    .map(
+      (i) => `
+      <tr class="cart-table-row">
+        <td class="cart-table-cell">${i.name}</td>
+        <td class="cart-table-cell">${i.quantity}</td>
+        <td class="cart-table-cell">$${Number(i.unitPrice).toFixed(2)}</td>
+        <td class="cart-table-cell">$${Number(i.subtotal).toFixed(2)}</td>
+      </tr>
+    `
+    )
+    .join('');
+  main.innerHTML = `
+    <table class="cart-table">
+      <thead>
+        <tr class="cart-table-row cart-table-header">
+          <th class="cart-table-cell">Item</th>
+          <th class="cart-table-cell">Qty</th>
+          <th class="cart-table-cell">Unit price</th>
+          <th class="cart-table-cell">Subtotal</th>
+        </tr>
+      </thead>
+      <tbody>
+        ${rows}
+        <tr class="cart-table-row cart-table-total-row">
+          <td class="cart-table-cell">Total</td>
+          <td class="cart-table-cell"></td>
+          <td class="cart-table-cell"></td>
+          <td class="cart-table-cell">$${Number(cart.total).toFixed(2)}</td>
+        </tr>
+      </tbody>
+    </table>
+  `;
+}
+
+const cartMain = document.getElementById('cart-main');
+if (cartMain) {
+  fetch('api/cart')
+    .then((res) => res.json())
+    .then((cart) => {
+      renderCart(cart);
+      window.analytics.track('cart_viewed', { itemCount: cart.items.length, total: cart.total });
+    })
+    .catch(() => {
+      cartMain.innerHTML = '<p class="empty-state">Unable to load cart.</p>';
+    });
+}
