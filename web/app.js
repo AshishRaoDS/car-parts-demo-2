@@ -44,7 +44,10 @@
       '<h1 class="detail-panel-name">' + product.name + '</h1>' +
       '<p class="detail-panel-price">$' + Number(product.price).toFixed(2) + '</p>' +
       '<p class="detail-panel-description">' + product.description + '</p>' +
+      '<button type="button" class="btn-primary" id="add-to-cart-btn" data-product-id="' + product.id + '">Add to cart</button>' +
+      '<p class="detail-panel-confirm" id="add-confirm" role="status"></p>' +
       '</div>';
+    if (window.analytics) window.analytics.track('product_detail_viewed', { productId: product.id });
   }
 
   var detailPanel = document.getElementById('detail-panel');
