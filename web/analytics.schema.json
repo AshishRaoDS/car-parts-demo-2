@@ -21,9 +21,9 @@
       "properties": { "productId": "string" }
     },
     {
-      "name": "product_added_to_cart",
-      "description": "Fired when Add to cart succeeds on the product detail page.",
-      "properties": { "productId": "string" }
+      "name": "cart_viewed",
+      "description": "Fired when the cart page successfully loads cart state from the cart API.",
+      "properties": { "itemCount": "number", "total": "number" }
     }
   ]
 }
