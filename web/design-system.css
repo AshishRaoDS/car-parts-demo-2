@@ -1,0 +1,197 @@
+:root {
+  --color-bg: #faf8f5;
+  --color-surface: #ffffff;
+  --color-border: #e4ddd2;
+  --color-text: #2b2620;
+  --color-text-muted: #6f6558;
+  --color-primary: #8a4b2e;
+  --color-primary-hover: #733d24;
+  --color-accent: #4c7a5e;
+  --color-danger: #b3402a;
+  --color-focus: #2f6fed;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 16px;
+  --space-4: 24px;
+  --space-5: 40px;
+  --radius-sm: 4px;
+  --radius-md: 10px;
+  --font-family: 'Georgia', 'Iowan Old Style', serif;
+  --font-family-ui: -apple-system, 'Segoe UI', sans-serif;
+  --font-size-sm: 13px;
+  --font-size-base: 16px;
+  --font-size-lg: 20px;
+  --font-size-xl: 32px;
+  --elevation-1: 0 1px 3px rgba(43,38,32,0.10);
+  --elevation-2: 0 4px 12px rgba(43,38,32,0.14);
+  --motion-fast: 120ms ease;
+}
+
+* { box-sizing: border-box; }
+html { background: var(--color-canvas, #f7f7f5); }
+body {
+  margin: 0;
+  min-width: 0;
+  font-family: var(--font-body, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif);
+  background: var(--color-canvas, #f7f7f5);
+  color: var(--color-text, #1a1a1a);
+  overflow-wrap: anywhere;
+}
+img, svg, video, canvas { max-width: 100%; height: auto; }
+.proto-screen > * + * { margin-top: var(--space-2, 1rem); }
+h1, h2, h3, p { margin: 0; }
+h1, h2, h3 {
+  color: var(--color-text, #1a1a1a);
+  line-height: 1.15;
+}
+p { color: var(--color-muted, #6b6b6b); line-height: 1.55; }
+a { color: var(--color-accent, #2f5d50); }
+form {
+  display: flex;
+  gap: var(--space-1, .5rem);
+  align-items: center;
+  flex-wrap: wrap;
+}
+input, textarea, select {
+  max-width: 100%;
+  min-height: 40px;
+  font: inherit;
+  padding: var(--space-1, .5rem);
+  border: 1px solid var(--color-border, #e0e0dd);
+  border-radius: var(--radius, 6px);
+  background: var(--color-surface, #fff);
+  color: var(--color-text, #1a1a1a);
+}
+input:focus, textarea:focus, select:focus {
+  outline: 2px solid var(--color-accent, #2f5d50);
+  outline-offset: 1px;
+}
+button {
+  max-width: 100%;
+  min-height: 40px;
+  font: inherit;
+  padding: var(--space-1, .5rem) var(--space-2, 1rem);
+  border: 1px solid var(--color-accent, #2f5d50);
+  border-radius: var(--radius, 6px);
+  background: var(--color-accent, #2f5d50);
+  color: var(--color-on-accent, #fff);
+  cursor: pointer;
+}
+button:hover { filter: brightness(.96); }
+button:focus-visible { outline: 2px solid var(--color-accent, #2f5d50); outline-offset: 2px; }
+button[disabled] { opacity: .5; cursor: not-allowed; }
+ul, ol { margin: 0; padding: 0; }
+li { list-style-position: inside; }
+.card, article, section.panel, [data-component="card"] {
+  border: 1px solid var(--color-border, #e0e0dd);
+  border-radius: var(--radius, 6px);
+  background: var(--color-surface, #fff);
+  padding: var(--space-2, 1rem);
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--color-surface, #fff);
+}
+th, td {
+  padding: var(--space-1, .5rem);
+  border-bottom: 1px solid var(--color-border, #e0e0dd);
+  text-align: left;
+}
+.proto-screen {
+  max-width: 100%;
+  overflow-x: auto;
+}
+.proto-screen :is(header, main, footer, section, article, aside, nav, form, div, ul, ol) {
+  max-width: 100%;
+}
+.proto-screen :is([class*="grid"], [class*="layout"], [class*="columns"], [class*="split"], [class*="row"]) {
+  min-width: 0;
+}
+@media (max-width: 720px) {
+  body { font-size: 15px; }
+  form { align-items: stretch; }
+  input, textarea, select, button { width: 100%; }
+  table { display: block; overflow-x: auto; white-space: nowrap; }
+}
+.is-active, .selected { border-color: var(--color-accent, #2f5d50); }
+.is-done, .done { color: var(--color-muted, #6b6b6b); text-decoration: line-through; }
+
+.top-nav{display:flex;align-items:center;justify-content:space-between;padding:var(--space-3) var(--space-4);background:var(--color-surface);border-bottom:1px solid var(--color-border);font-family:var(--font-family-ui);flex-wrap:wrap;gap:var(--space-2);}
+.top-nav-brand{font-family:var(--font-family);font-size:var(--font-size-lg);font-weight:700;color:var(--color-text);text-decoration:none;}
+.top-nav-brand:focus{outline:2px solid var(--color-focus);outline-offset:2px;}
+.top-nav-cart{display:inline-flex;align-items:center;gap:var(--space-2);padding:var(--space-2) var(--space-3);border-radius:var(--radius-md);background:var(--color-bg);border:1px solid var(--color-border);color:var(--color-text);text-decoration:none;font-size:var(--font-size-sm);}
+.top-nav-cart:hover{background:var(--color-border);}
+.top-nav-cart:focus{outline:2px solid var(--color-focus);outline-offset:2px;}
+.top-nav-cart-badge{background:var(--color-primary);color:#fff;border-radius:999px;padding:1px 7px;font-size:11px;font-weight:700;}
+
+.btn-primary{display:inline-block;background:var(--color-primary);color:#fff;border:none;padding:var(--space-2) var(--space-4);border-radius:var(--radius-sm);font-family:var(--font-family-ui);font-size:var(--font-size-base);font-weight:600;cursor:pointer;transition:background var(--motion-fast);}
+.btn-primary:hover{background:var(--color-primary-hover);}
+.btn-primary:focus{outline:2px solid var(--color-focus);outline-offset:2px;}
+.btn-primary:disabled{background:var(--color-border);color:var(--color-text-muted);cursor:not-allowed;}
+.btn-primary[data-state='loading']{opacity:0.7;cursor:wait;}
+.btn-primary[data-state='added']{background:var(--color-accent);}
+
+.btn-secondary{display:inline-block;background:transparent;color:var(--color-primary);border:1px solid var(--color-primary);padding:var(--space-2) var(--space-4);border-radius:var(--radius-sm);font-family:var(--font-family-ui);font-size:var(--font-size-base);font-weight:600;cursor:pointer;text-decoration:none;transition:background var(--motion-fast);}
+.btn-secondary:hover{background:var(--color-bg);}
+.btn-secondary:focus{outline:2px solid var(--color-focus);outline-offset:2px;}
+
+.product-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:var(--space-4);padding:var(--space-4);}
+@media (max-width:480px){.product-grid{grid-template-columns:1fr 1fr;gap:var(--space-2);padding:var(--space-2);}}
+.product-grid-card{background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-md);overflow:hidden;text-decoration:none;color:var(--color-text);display:block;box-shadow:var(--elevation-1);transition:box-shadow var(--motion-fast),transform var(--motion-fast);}
+.product-grid-card:hover{box-shadow:var(--elevation-2);transform:translateY(-2px);}
+.product-grid-card:focus{outline:2px solid var(--color-focus);outline-offset:2px;}
+.product-grid-image{width:100%;height:150px;object-fit:cover;background:var(--color-bg);display:block;}
+.product-grid-name{font-family:var(--font-family-ui);font-size:var(--font-size-base);font-weight:600;padding:var(--space-2) var(--space-3) 0;}
+.product-grid-price{font-family:var(--font-family-ui);font-size:var(--font-size-sm);color:var(--color-text-muted);padding:var(--space-1) var(--space-3) var(--space-3);}
+
+.detail-panel{display:grid;grid-template-columns:1fr 1fr;gap:var(--space-5);padding:var(--space-4);max-width:960px;margin:0 auto;}
+@media (max-width:640px){.detail-panel{grid-template-columns:1fr;gap:var(--space-3);}}
+.detail-panel-image{width:100%;border-radius:var(--radius-md);border:1px solid var(--color-border);object-fit:cover;background:var(--color-bg);}
+.detail-panel-info{display:flex;flex-direction:column;gap:var(--space-2);font-family:var(--font-family-ui);}
+.detail-panel-title{font-family:var(--font-family);font-size:var(--font-size-xl);margin:0;color:var(--color-text);}
+.detail-panel-price{font-size:var(--font-size-lg);color:var(--color-primary);font-weight:700;}
+.detail-panel-desc{color:var(--color-text-muted);line-height:1.6;}
+.detail-panel-confirm{color:var(--color-accent);font-weight:600;font-size:var(--font-size-sm);display:none;}
+.detail-panel-confirm[data-visible='true']{display:block;}
+
+.cart-list{display:flex;flex-direction:column;gap:var(--space-2);padding:var(--space-4);max-width:720px;margin:0 auto;}
+.cart-list-item{display:grid;grid-template-columns:64px 1fr auto;align-items:center;gap:var(--space-3);background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-md);padding:var(--space-2) var(--space-3);}
+@media (max-width:480px){.cart-list-item{grid-template-columns:48px 1fr;grid-template-rows:auto auto;row-gap:var(--space-1);}}
+.cart-list-image{width:64px;height:64px;object-fit:cover;border-radius:var(--radius-sm);background:var(--color-bg);}
+.cart-list-name{font-family:var(--font-family-ui);font-weight:600;color:var(--color-text);}
+.cart-list-qty{font-family:var(--font-family-ui);font-size:var(--font-size-sm);color:var(--color-text-muted);white-space:nowrap;}
+.cart-list-price{font-family:var(--font-family-ui);font-weight:600;color:var(--color-text);white-space:nowrap;}
+.cart-list-total{display:flex;justify-content:space-between;font-family:var(--font-family-ui);font-size:var(--font-size-lg);font-weight:700;padding:var(--space-3);border-top:2px solid var(--color-border);margin-top:var(--space-2);}
+
+.empty-state{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:var(--space-3);padding:var(--space-5) var(--space-3);color:var(--color-text-muted);font-family:var(--font-family-ui);}
+.empty-state-title{font-family:var(--font-family);font-size:var(--font-size-lg);color:var(--color-text);}
+.empty-state-body{max-width:360px;line-height:1.5;}
+
+.hero-section{display:flex;flex-direction:column;align-items:flex-start;gap:var(--space-3);padding:var(--space-5) var(--space-4);max-width:640px;margin:0 auto;text-align:left;}
+.hero-section-eyebrow{font-family:var(--font-family-ui);font-size:var(--font-size-sm);letter-spacing:0.08em;text-transform:uppercase;color:var(--color-accent);font-weight:700;}
+.hero-section-title{font-family:var(--font-family);font-size:var(--font-size-xl);color:var(--color-text);margin:0;line-height:1.2;}
+.hero-section-copy{font-family:var(--font-family-ui);color:var(--color-text-muted);line-height:1.6;font-size:var(--font-size-base);}
+
+/* Prototype safety rails -- applied after generated component CSS. */
+.proto-screen, .proto-screen * {
+  box-sizing: border-box;
+  max-width: 100%;
+}
+.proto-screen [style*="width"] {
+  max-width: 100% !important;
+}
+@media (max-width: 720px) {
+  .proto-screen {
+    overflow-x: hidden;
+  }
+  .proto-screen :is(header, main, footer, section, article, aside, nav, form, div, ul, ol) {
+    min-width: 0 !important;
+  }
+  .proto-screen :is([class*="grid"], [class*="layout"], [class*="columns"], [class*="split"], [class*="dashboard"], [class*="shell"], [style*="grid-template-columns"]) {
+    grid-template-columns: 1fr !important;
+  }
+  .proto-screen :is([class*="row"], [class*="toolbar"], [class*="actions"], [class*="nav"], [style*="display: flex"], [style*="display:flex"]) {
+    flex-wrap: wrap !important;
+  }
+}
