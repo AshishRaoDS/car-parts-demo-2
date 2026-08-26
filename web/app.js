@@ -1,3 +1,16 @@
+function cartHeaders(extra) {
+  const headers = Object.assign({}, extra || {});
+  const sid = sessionStorage.getItem('cartSessionId');
+  if (sid) headers['X-Session-Id'] = sid;
+  return headers;
+}
+
+function rememberSession(res) {
+  const sid = res.headers.get('x-session-id');
+  if (sid) sessionStorage.setItem('cartSessionId', sid);
+  return res;
+}
+
 function renderProducts(products) {
   const grid = document.getElementById('product-grid');
   if (!products.length) {
@@ -64,10 +77,91 @@ if (detailMain) {
             </div>
           </div>
         `;
-        window.analytics.track('product_detail_viewed', { productId: product.id });
+
+        const addBtn = document.getElementById('add-to-cart');
+        const confirmMsg = document.getElementById('add-confirm');
+        addBtn.addEventListener('click', () => {
+          addBtn.disabled = true;
+          fetch('api/cart/items', {
+            method: 'POST',
+            headers: cartHeaders({ 'Content-Type': 'application/json' }),
+            credentials: 'same-origin',
+            body: JSON.stringify({ productId: product.id }),
+          })
+            .then((res) => {
+              rememberSession(res);
+              if (!res.ok) throw new Error('add to cart failed');
+              return res.json();
+            })
+            .then(() => {
+              confirmMsg.textContent = 'Added to cart.';
+              confirmMsg.classList.add('detail-panel-confirm--visible');
+              try { window.analytics.track('product_added_to_cart', { productId: product.id }); } catch (e) { /* analytics must never block the cart write */ }
+            })
+            .catch(() => {
+              confirmMsg.textContent = 'Unable to add to cart.';
+              confirmMsg.classList.add('detail-panel-confirm--visible');
+            })
+            .finally(() => {
+              addBtn.disabled = false;
+            });
+        });
+
+        try { window.analytics.track('product_detail_viewed', { productId: product.id }); } catch (e) { /* analytics must never block rendering */ }
       })
       .catch(() => {
         detailMain.innerHTML = '<p class="empty-state">Unable to load product.</p>';
       });
   }
+}
+
+const cartMain = document.getElementById('cart-main');
+if (cartMain) {
+  fetch('api/cart', { credentials: 'same-origin', headers: cartHeaders() })
+    .then((res) => {
+      rememberSession(res);
+      if (!res.ok) throw new Error('cart load failed');
+      return res.json();
+    })
+    .then((cart) => {
+      if (!cart.items.length) {
+        cartMain.innerHTML = '<p class="empty-state">Your cart is empty.</p>';
+        return;
+      }
+      const rows = cart.items
+        .map(
+          (i) => `
+          <tr class="cart-table-row">
+            <td class="cart-table-cell">${i.name}</td>
+            <td class="cart-table-cell">${i.quantity}</td>
+            <td class="cart-table-cell">$${Number(i.unitPrice).toFixed(2)}</td>
+            <td class="cart-table-cell">$${Number(i.subtotal).toFixed(2)}</td>
+          </tr>
+        `
+        )
+        .join('');
+      cartMain.innerHTML = `
+        <table class="cart-table">
+          <thead>
+            <tr class="cart-table-row cart-table-header">
+              <th class="cart-table-cell">Product</th>
+              <th class="cart-table-cell">Qty</th>
+              <th class="cart-table-cell">Unit price</th>
+              <th class="cart-table-cell">Subtotal</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${rows}
+            <tr class="cart-table-row cart-table-total-row">
+              <td class="cart-table-cell" colspan="3">Total</td>
+              <td class="cart-table-cell">$${Number(cart.total).toFixed(2)}</td>
+            </tr>
+          </tbody>
+        </table>
+      `;
+      try { window.analytics.track('cart_viewed', { itemCount: cart.items.length, total: cart.total }); } catch (e) { /* analytics must never block rendering */ }
+    })
+    .catch(() => {
+      cartMain.innerHTML = '<p class="empty-state">Unable to load cart.</p>';
+    });
 }

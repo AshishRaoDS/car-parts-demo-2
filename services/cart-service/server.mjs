@@ -13,16 +13,20 @@ app.use(cookieParser());
 const carts = new Map();
 
 const SESSION_COOKIE = 'cart_session';
+const SESSION_HEADER = 'x-session-id';
 
+// Cookies are the primary session mechanism, but not every HTTP client that
+// exercises this API round-trips Set-Cookie automatically. A client-supplied
+// session id header is accepted as a fallback so the same session resolves
+// either way; both are always echoed back so the caller can persist either.
 function getSessionId(req, res) {
-  let sid = req.cookies[SESSION_COOKIE];
-  if (!sid) {
-    sid = crypto.randomUUID();
-    res.cookie(SESSION_COOKIE, sid, { httpOnly: true, sameSite: 'lax' });
+  let sid = req.cookies[SESSION_COOKIE] || req.get(SESSION_HEADER) || null;
+  if (!sid || !carts.has(sid)) {
+    sid = sid && carts.has(sid) ? sid : crypto.randomUUID();
+    carts.set(sid, carts.get(sid) || new Map());
   }
-  if (!carts.has(sid)) {
-    carts.set(sid, new Map());
-  }
+  res.cookie(SESSION_COOKIE, sid, { httpOnly: true, sameSite: 'lax', path: '/' });
+  res.set(SESSION_HEADER, sid);
   return sid;
 }
 
