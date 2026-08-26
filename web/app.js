@@ -98,3 +98,59 @@ if (detailMain) {
       });
   }
 }
+
+function renderCart(cart) {
+  const main = document.getElementById('cart-main');
+  if (!cart.items.length) {
+    main.innerHTML = '<h1>Your cart</h1><p class="empty-state">Your cart is empty.</p>';
+    return;
+  }
+  const rows = cart.items
+    .map(
+      (i) => `
+      <tr class="cart-table-row">
+        <td class="cart-table-cell">${i.name}</td>
+        <td class="cart-table-cell">${i.quantity}</td>
+        <td class="cart-table-cell">$${Number(i.unitPrice).toFixed(2)}</td>
+        <td class="cart-table-cell">$${Number(i.subtotal).toFixed(2)}</td>
+      </tr>
+    `
+    )
+    .join('');
+  main.innerHTML = `
+    <h1>Your cart</h1>
+    <table class="cart-table">
+      <thead>
+        <tr class="cart-table-row">
+          <th class="cart-table-cell cart-table-header">Product</th>
+          <th class="cart-table-cell cart-table-header">Qty</th>
+          <th class="cart-table-cell cart-table-header">Price</th>
+          <th class="cart-table-cell cart-table-header">Subtotal</th>
+        </tr>
+      </thead>
+      <tbody>
+        ${rows}
+        <tr class="cart-table-row cart-table-total-row">
+          <td class="cart-table-cell" colspan="3">Total</td>
+          <td class="cart-table-cell">$${Number(cart.total).toFixed(2)}</td>
+        </tr>
+      </tbody>
+    </table>
+  `;
+}
+
+const cartMain = document.getElementById('cart-main');
+if (cartMain) {
+  fetch('api/cart', { credentials: 'same-origin' })
+    .then((res) => {
+      if (!res.ok) throw new Error('failed to load cart');
+      return res.json();
+    })
+    .then((cart) => {
+      renderCart(cart);
+      window.analytics.track('cart_viewed', { count: cart.items.length });
+    })
+    .catch(() => {
+      cartMain.innerHTML = '<h1>Your cart</h1><p class="empty-state">Unable to load cart.</p>';
+    });
+}
