@@ -7,7 +7,7 @@ function renderProducts(products) {
   grid.innerHTML = products
     .map(
       (p) => `
-      <a class="product-grid-card" href="./product.html?id=${encodeURIComponent(p.id)}">
+      <a class="product-grid-card" href="./product.html?id=${encodeURIComponent(p.id)}" aria-label="View ${p.name}" data-product-name="${p.name}">
         <img class="product-grid-image" src="${p.thumbnail}" alt="${p.name}">
         <div class="product-grid-body">
           <h3 class="product-grid-name">${p.name}</h3>
@@ -60,7 +60,7 @@ if (detailMain) {
               <p class="detail-panel-price">$${Number(product.price).toFixed(2)}</p>
               <p class="detail-panel-desc">${product.description}</p>
               <button id="add-to-cart" class="btn-primary">Add to cart</button>
-              <p id="add-confirm" class="detail-panel-confirm">Added to cart.</p>
+              <p id="add-confirm" class="detail-panel-confirm" role="status">Added to cart.</p>
             </div>
           </div>
         `;
@@ -81,6 +81,7 @@ if (detailMain) {
               return res.json();
             })
             .then(() => {
+              confirmMsg.textContent = 'Added to cart.';
               confirmMsg.classList.add('detail-panel-confirm--visible');
               window.analytics.track('product_added_to_cart', { productId: product.id });
             })
