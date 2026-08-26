@@ -10,6 +10,12 @@
       "health": "/health",
       "routes": ["/api/products"],
       "consumes": []
+    },
+    "cart-service": {
+      "dir": "services/cart-service",
+      "health": "/health",
+      "routes": ["/api/cart"],
+      "consumes": ["product-service"]
     }
   }
 }
